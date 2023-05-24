@@ -21,22 +21,22 @@ final class WeatherAppViewModelTests: XCTestCase {
     
     func testWeatherDataFetch_When_Everything_isCorrect() {
 
-        let weatherViewModel = WeatherViewModel(weatherManager: WeatherManager())
+        let weatherViewModel = WeatherViewModel(weatherManager: FakeWeatherManager())
         
             
         XCTAssertNotNil(weatherViewModel)
             
             let expectation = XCTestExpectation(description: "Fetching Weather information")
             
-            weatherViewModel.fetchWeatherInfo(city: "London")
+            weatherViewModel.fetchWeatherInfo(city: "Atlanta")
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
                 
-                XCTAssertEqual(51.5085, weatherViewModel.forecast?.coord.lat)
+                XCTAssertEqual(33.749, weatherViewModel.forecast?.coord.lat)
                 
-                XCTAssertEqual(-0.1257, weatherViewModel.forecast?.coord.lon)
+                XCTAssertEqual(-84.388, weatherViewModel.forecast?.coord.lon)
                 
-                XCTAssertEqual(283.57, weatherViewModel.forecast?.main.temp)
+                XCTAssertEqual(293.68, weatherViewModel.forecast?.main.temp)
                 
                 expectation.fulfill()
             }

@@ -9,20 +9,17 @@ import Foundation
 import CoreLocation
 import SwiftUI
 
-class WeatherViewModel: ObservableObject {
+final class WeatherViewModel: ObservableObject {
     
-    let weatherManager: NetworkProtocol
-    let locationManager = CLLocationManager()
-    @Published var location: Forecast?
+    private let weatherManager: NetworkProtocol
+    var location: Forecast?
     @Published var forecast: Forecast?
-    
-    @Published var weatherImageURL: String = ""
-    @Published var currentTemp: Int = 0
-    @Published var latitude: Double = 0.0
-    @Published var longitude: Double = 0.0
-    
+    var currentTemp: Int = 0
+    var latitude: Double = 0.0
+    var longitude: Double = 0.0
     let lastSearchedCityKey = "LastSearchedCity"
-    
+    private var fetchTask: Task<Void, Never>?
+
     init(weatherManager: NetworkProtocol) {
         self.weatherManager = weatherManager
         let lastSearchedCity = UserDefaults.standard.string(forKey: lastSearchedCityKey)
@@ -31,12 +28,8 @@ class WeatherViewModel: ObservableObject {
         }
     }
     
-    private var fetchTask: Task<Void, Never>?
-    
     func fetchWeatherInfo(city: String) {
-        
         fetchTask?.cancel()
-        
         Task {
             do {
                 

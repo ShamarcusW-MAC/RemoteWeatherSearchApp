@@ -13,7 +13,7 @@ struct WeatherEndpoints<Response: Decodable> {
 }
 
 //Due to time constraints and the purpose of this demo, I've decided to store my api key in a less complex way. However, I would much prefer use KeyChain services instead.
-class WeatherEndpoint {
+struct WeatherEndpoint {
     static func getCurrentWeatherData(lat: Double, lon: Double) -> WeatherEndpoints<Forecast> {
         WeatherEndpoints(url: URL(string: "https://api.openweathermap.org/data/2.5/weather?lat=\(lat)&lon=\(lon)&appid=\(KeyRef.getAPIKeyThroughConfig())")!,
                          responseType: Forecast.self)
